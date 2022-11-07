@@ -1,0 +1,6 @@
+![Algorithm schema](./images/schema.jpg)
+## Comando de ejecucion 
+npm run start:dev
+
+## Instalacion
+Para ejecutar este proyecto ejecutar manualmente npm install
