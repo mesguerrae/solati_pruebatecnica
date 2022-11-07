@@ -2,7 +2,10 @@ const peticiones = require('https');
 
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/chat");
+mongoose.connect("mongodb://127.0.0.1:27017/chat",{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 
 let chatSchema = new mongoose.Schema({
@@ -30,7 +33,11 @@ module.exports = (http) => {
                 type: 'question'
             };
 
-            Chat.insertMany(chatSave);
+            Chat.insertMany([chatSave]).then(function(){
+                console.log("Data inserted")  // Success
+            }).catch(function(error){
+                console.log(error)      // Failure
+            });
 
             io.emit('chat-message', msg);
 
@@ -63,6 +70,19 @@ module.exports = (http) => {
             msg.date = new Date().toLocaleDateString()
             msg.message = 'prueba';
             msg.nick = 'auto-bot';
+
+            const chatSave2 = {
+                date: msg.date,
+                message: msg.message,
+                nick: msg.nick,
+                type: 'answer'
+            };
+
+            Chat.insertMany([chatSave2]).then(function(){
+                console.log("Data inserted")  // Success
+            }).catch(function(error){
+                console.log(error)      // Failure
+            });
             io.emit('chat-message', msg);
 
         });
